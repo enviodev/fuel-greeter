@@ -1,13 +1,13 @@
 contract;
 
-use std::storage::storage_api::{read, write, clear};
+use std::storage::storage_api::{clear, read, write};
 
 // Workaround for the following error: `str` or a type containing `str` on `configurables` is not allowed.
 // But might be not needed, since we use str[8] now
 const GREETING_KEY: b256 = 0x0000000000000000000000000000000000000000000000000000000000000000;
 
 struct Greeting {
-    value: str[8]
+    value: str[8],
 }
 
 enum Error {
@@ -27,7 +27,7 @@ pub struct ClearGreeting {
 abi Greeter {
     #[storage(read)]
     fn greet() -> Option<Greeting>;
- 
+
     #[storage(write)]
     fn set_greeting(greeting: str[8]);
 
@@ -37,24 +37,23 @@ abi Greeter {
     fn throw_error();
 }
 
-
 impl Greeter for Contract {
     #[storage(read)]
     fn greet() -> Option<Greeting> {
-        read::<Greeting>(GREETING_KEY, 0)  
+        read::<Greeting>(GREETING_KEY, 0)
     }
 
     #[storage(write)]
     fn set_greeting(greeting: str[8]) {
         let sender = msg_sender().unwrap();
         if let Identity::Address(address) = sender {
-            let g = Greeting{
+            let g = Greeting {
                 value: greeting,
             };
             write(GREETING_KEY, 0, g);
             log(NewGreeting {
-              user: address,
-              greeting: g,
+                user: address,
+                greeting: g,
             });
         } else {
             require(false, Error::InvalidContractSender);
@@ -66,9 +65,7 @@ impl Greeter for Contract {
         let sender = msg_sender().unwrap();
         if let Identity::Address(address) = sender {
             let _ = clear::<Greeting>(GREETING_KEY, 0);
-            log(ClearGreeting {
-              user: address,
-            });
+            log(ClearGreeting { user: address });
         } else {
             require(false, Error::InvalidContractSender);
         }
