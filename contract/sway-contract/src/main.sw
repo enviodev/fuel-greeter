@@ -26,7 +26,7 @@ pub struct ClearGreeting {
 
 abi Greeter {
     #[storage(read)]
-    fn greet() -> Option<Greeting>;
+    fn current_greeting() -> Option<Greeting>;
 
     #[storage(write)]
     fn set_greeting(greeting: str[8]);
@@ -39,7 +39,7 @@ abi Greeter {
 
 impl Greeter for Contract {
     #[storage(read)]
-    fn greet() -> Option<Greeting> {
+    fn current_greeting() -> Option<Greeting> {
         read::<Greeting>(GREETING_KEY, 0)
     }
 
