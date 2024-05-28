@@ -29,8 +29,16 @@ async fn main() -> Result<()> {
 
     let phrase = env::var("MNEMONIC").expect("MNEMONIC must be set in .env");
 
-    let provider = Provider::connect("beta-5.fuel.network").await.unwrap();
+    let provider = Provider::connect("testnet.fuel.network").await.unwrap();
 
+    /* // This is the implementation, how can I make this code generate 10 wallets for me to use
+        * randomly?
+        * I want to then write 10 greetings to the contract randomly.
+        pub fn new_from_mnemonic_phrase(phrase: &str, provider: Option<Provider>) -> Result<Self> {
+            let path = format!("{DEFAULT_DERIVATION_PATH_PREFIX}/0'/0/0");
+            Self::new_from_mnemonic_phrase_with_path(phrase, provider, &path)
+        }
+    */
     let wallet = WalletUnlocked::new_from_mnemonic_phrase(&phrase, Some(provider.clone())).unwrap();
 
     let base_asset_id =
@@ -54,14 +62,17 @@ async fn main() -> Result<()> {
     //
     let contract_instance = Greeter::new(greeter_contract_id, wallet);
 
-    // // This also fails to read the value.
-    // let result = current_greeting(&contract_instance).await.value;
-    //
+    let result = current_greeting(&contract_instance).await.value;
+    dbg!(result);
+
     println!("update greeting");
-    let set_greeting_result = set_greeting(&contract_instance, "test    ".to_string())
+    let set_greeting_result = set_greeting(&contract_instance, "test3   ".to_string())
         .await
         .value;
+
     dbg!(set_greeting_result);
+    let clear_greeting_result = current_greeting(&contract_instance).await.value;
+    dbg!(clear_greeting_result);
 
     Ok(())
 }
