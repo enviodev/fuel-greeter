@@ -14,7 +14,7 @@ describe("Greeter template tests", () => {
     // Creating a mock event
     const mockNewGreetingEvent = Greeter.NewGreeting.mockData({
       greeting: { value: greeting },
-      user: { value: userAddress },
+      user: { bits: userAddress },
     });
 
     // Processing the mock event on the mock database
@@ -48,13 +48,13 @@ describe("Greeter template tests", () => {
     // Creating a mock event
     const mockNewGreetingEvent = Greeter.NewGreeting.mockData({
       greeting: { value: greeting },
-      user: { value: userAddress },
+      user: { bits: userAddress },
     });
 
     // Creating a mock event
     const mockNewGreetingEvent2 = Greeter.NewGreeting.mockData({
       greeting: { value: greeting },
-      user: { value: userAddress },
+      user: { bits: userAddress },
     });
 
     // Processing the mock event on the mock database
@@ -87,13 +87,13 @@ describe("Greeter template tests", () => {
     // Creating a mock event
     const mockNewGreetingEvent = Greeter.NewGreeting.mockData({
       greeting: { value: greeting },
-      user: { value: userAddress },
+      user: { bits: userAddress },
     });
 
     // Creating a mock event
     const mockNewGreetingEvent2 = Greeter.NewGreeting.mockData({
       greeting: { value: greetingAgain },
-      user: { value: userAddress },
+      user: { bits: userAddress },
     });
 
     // Processing the mock event on the mock database
